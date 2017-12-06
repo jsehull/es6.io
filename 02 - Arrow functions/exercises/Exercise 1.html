@@ -30,18 +30,26 @@
 </ul>
 
 <script>
+// Select all the list items on the page and convert to array
+const allVideos = Array.from(document.querySelectorAll('[data-time]'));
 
-  // Select all the list items on the page and convert to array
+// Filter for only the elements that contain the word 'flexbox'
+const flexboxVideos = allVideos
+  .filter(video => video.textContent.includes('Flexbox'))
+// map down to a list of time strings
+  .map(video => video.dataset.time)
 
-  // Filter for only the elements that contain the word 'flexbox'
+// map to an array of seconds
+  .map(timecode => {
+    const parts = timecode.split(':').map(part => parseFloat(part));
+    return (parts[0] * 60) + parts[1];
+  })
+// reduce to get total
+  .reduce((runningTotal, seconds) => runningTotal + seconds,0)  // 0 as starting #, not required
 
-  // map down to a list of time strings
+console.log(flexboxVideos);
 
-  // map to an array of seconds
-
-  // reduce to get total
-
-  // 🔥 This can also be done in a single .reduce(), but we're practicing arrow functions here, so chain them!
+// 🔥 This can also be done in a single .reduce(), but we're practicing arrow functions here, so chain them!
 
 </script>
 </body>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<div class="box"></div>
+<script>
+
+//// CONST and LET
+// var = function scoped
+// const and let = block scoped
+{
+  const testVariable = "this is the new IIFE"; // works for let too
+}
+
+
+
+//// ARROW FUNCTIIONS
+const names = ['jesse', 'james', 'john'];
+
+const fullNames = names.map(function(name) { // es5
+  return `${name} Johnson`;
+});
+
+const fullNames2 = names.map((name) => { // es6
+  return `${name} Johnson`;
+});
+
+const fullNames3 = names.map(name => { // multi line AND ONE parameter
+  // explicit return
+  return `${name} Johnson`;
+});
+
+                            // implicit return
+const fullNames4 = names.map(name => `${name} Johnson`); // one line
+
+console.log(fullNames, fullNames2, fullNames3, fullNames4);
+
+// const fullNames5 = (name) => { alert(`${name} is here` )};
+// console.log(fullNames5('jesse'));
+
+
+const race = '100m Dash';
+const winners = ['juan', 'john', 'eddy'];
+
+// const win = winners.map((winner, i) => ({ name: winner, race: race, place: i }));
+const win = winners.map((winner, i) => ({ name: winner, race, place: i + 1 }));
+console.table(win);
+
+const ages = [21, 3, 234, 33, 22, 20, 5, 4, 3];
+const old = ages.filter(age => age >= 21);
+console.log(old);
+
+// THIS
+// - normal function, variable to the left of the dot (box.addEventListener -> points to 'this')
+// - arrow scope inherits
+  // - arrows inside normal functions inherit 'this' value
+const box = document.querySelector('.box');
+box.addEventListener('click', function() { // function is parent for children to inherit 'this'
+  let first = 'opening';
+  let second = 'open';
+
+  if(this.classList.contains(first)) {
+    [first, second] = [second, first];
+  }
+
+  this.classList.toggle(first);
+  setTimeout(() => {    // arrow here inherits the layer above
+    console.log(this);
+    this.classList.toggle(second);
+  }, 500);
+});
+
+
+
+
+// default function ARGUMENTS
+function calculateBill(total, tax = 0.13, tip = 0.15) {
+  return total + (total * tax) + (total * tip);
+}
+// const totalBill = calculateBill(100, 0.20, 0.50); // explicitly given, like normal
+// const totalBill = calculateBill(100); // uses defaults
+const totalBill = calculateBill(100, undefined, 0.50); // uses default + arg
+console.log(totalBill);
+
+
+
+const person = {
+  points: 23,
+  // score: function() {
+    score() {
+    console.log(this);
+    this.points++;
+  }
+}
+
+
+//// DO NOT use arrow functions wrong with 'arguments' and 'this'
+
+
+
+</script>
+</body>
+</html>
